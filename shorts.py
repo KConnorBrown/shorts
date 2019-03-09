@@ -46,9 +46,30 @@ def get_names(text):
                 person_list.append(name[:-1])
             name = ''
         person = []
-
     return (person_list)
 
+def rename_sentences(full_data, Names):
+    for i in range(0, len(full_data)):
+        sentence = full_data[i][0]
+        #find the proper names
+        tokens = nltk.tokenize.word_tokenize(sentence.strip())
+        tagged_sentence = nltk.tag.pos_tag(tokens)
+        replace = []
+        for j in range(0, len(tagged_sentence)):
+            tag = tagged_sentence[j][1]
+            word = tagged_sentence[j][0]
+            if tag == 'NNP' or tag == 'NNPS':
+                replace.append(word)
+        replace = list(set(replace))
+        for toReplace in replace:
+            name = random.choice(Names)
+            sentence = sentence.replace(toReplace.strip(), name)
+        full_data[i][0] = sentence
+        # print(full_data[i][0])
+        # print('\n')
+
+
+"""separates all the elements of each sentence into an list of arrays"""
 def extract_auth(l):
     l = l.strip()
     mapped = []
@@ -101,7 +122,6 @@ def extract_auth(l):
 each data is a list of these 4 items
 
 eg:
-
 ['Justice?—You get justice in the next world, in this world you have the law.', 'William Gaddis', 'A Frolic of His Own', '1994']
  """
 def processTitleAuthorDataStrings():
@@ -115,7 +135,7 @@ def processTitleAuthorDataStrings():
     for sent in s:
         data = extract_auth(sent)
         extracted.append(data)
-    return s
+    return extracted
 
 def write_story(seed):
     return;
@@ -123,27 +143,31 @@ def write_story(seed):
 def main():
     if not sentence_scraped: scrape_sentences()
     if not book_scraped: scrape_100years()
-    if not name_parsed :
+    if not name_parsed:
         book = open('100yrs.txt', 'r')
         names = get_names(book.read())
         book.close()
-
 """get the sentences and set of names ready"""
-    sentences = processTitleAuthorDataStrings()
-    n = open('names.txt', 'r')
-    names = n.readlines()
-    names = list(set(names))
-    for i in range(0,len(names)):
-        names[i] = names[i].replace(",", "")
-        names[i] = names[i].strip()
-    # print(names) <-- gives an array of names in the book with no repeats
-    # print(len(names))
+full_data = processTitleAuthorDataStrings()
+n = open('names.txt', 'r')
+names = n.readlines()
+names = list(set(names))
+# namesToSex = {}
+for i in range(0,len(names)):
+    names[i] = names[i].replace(",", "")
+    names[i] = names[i].strip()
+
+"""replace the names in the sentences with ones from the set of names
+#full_data is a list of 4 tuple lists full_data[0][0] is "Call me Ishmael"
+"""
+rename_sentences(full_data, names)
 
 """GENERATE 100 SHORT STORIES STARTING FROM A SEED"""
-    while(len(sentences > 0):
-        seed = random.choice(sentences)
-        sentences.remove(seed)
-        write_story(seed)
+while(len(full_data) > 0):
+        seed = random.choice(full_data)
+        full_data.remove(seed)
+        write_story(seed) #seed is a list of format [renamed sentences, the Author, the Title of the book, and the date]
+
 
 
 

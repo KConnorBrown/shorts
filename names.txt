@@ -34,7 +34,6 @@ Doctor, Noguera
 Victorio, Medina
 Pillar, Ternera
 Santa, Sofia
-Jesus, Christ
 Roque, Carnicero
 Gerineldo, Marquez
 Roque, Carnicero
@@ -44,7 +43,7 @@ Jose, Segundo
 Aureliano, Segundo
 Jose, Moncada
 Bruno, Crespi
-Amparo, Mos
+Amparo, Moscote
 Don, Escalona
 Aquiles, Ricardo
 Carmelita, Montiel
@@ -78,7 +77,7 @@ Artemio, Cruz
 Dagoberto, Fonseca
 Major, Isaza
 Santa, Sofia de la Piedad
-Petra, Cates
+Petra, Cotes
 Petronila, Iguaran
 Tranquilina, Buendía
 Aureliano, Buendía
