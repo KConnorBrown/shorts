@@ -10,6 +10,7 @@ book_scraped = True
 name_parsed = True
 import nltk
 from nameparser.parser import HumanName
+import markovify
 
 def scrape_sentences():
     sentencesHTML = open('sentences.html', 'w+')
@@ -137,8 +138,17 @@ def processTitleAuthorDataStrings():
         extracted.append(data)
     return extracted
 
-def write_story(seed):
-    return;
+def write_story(seed, text_model):
+    with open('stories2.txt', 'a+') as s:
+        # print(seed[0])
+        s.write(seed[0] + ' ' + '\n')
+    # Print five randomly-generated sentences
+        for i in range(5):
+            s.write(text_model.make_sentence() + ' ' + '\n')
+            # print(text_model.make_sentence())
+        # print('\n')
+        # s.write('\n')
+        s.write('\n')
 
 def main():
     if not sentence_scraped: scrape_sentences()
@@ -162,11 +172,21 @@ for i in range(0,len(names)):
 """
 rename_sentences(full_data, names)
 
+# Build the model.
+with open("100yrs.txt") as f:
+    # Get raw text as string.
+    text = f.read()
+text_model = markovify.Text(text)
 """GENERATE 100 SHORT STORIES STARTING FROM A SEED"""
+
+#clear stories file for testing purposes
+with open('stories.txt', 'w') as s:
+    s.write("")
+
 while(len(full_data) > 0):
         seed = random.choice(full_data)
         full_data.remove(seed)
-        write_story(seed) #seed is a list of format [renamed sentences, the Author, the Title of the book, and the date]
+        write_story(seed, text_model) #seed is a list of format [renamed sentences, the Author, the Title of the book, and the date]
 
 
 
