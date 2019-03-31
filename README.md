@@ -1,5 +1,3 @@
-[take me to Macondo!](https://kconnorbrown.github.io/shorts.html)
-
 Start with iconic first sentences from books and replace the names with those from one hundred Years of solitude. Craft a short story from there.
 At the end, rewrite the first sentence to match the story.
 
